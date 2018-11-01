@@ -1,7 +1,48 @@
 {
-    "users": {
-        "id": "",
-        "user-nric": "",
-        "nrics": []
+  "users": [
+    {
+      "id": "",
+      "user-nric": "",
+      "nrics": []
+    },
+    {
+      "id": "fhskf",
+      "user-nric": "fhdsfds",
+      "nric": "fmeem"
+    },
+    {
+      "id": "d",
+      "user-nric": "fhdsfds",
+      "nric": "cock"
+    },
+    {
+      "id": "fsfds",
+      "user-nric": "fhdsfds",
+      "nric": [
+        "gfljsd",
+        "gfdjljd"
+      ]
+    },
+    {
+      "id": "try",
+      "user-nric": "fhdsfds",
+      "nric": [
+        "gfljsd",
+        "gfdjljd"
+      ]
+    },
+    {
+      "users": {
+        "id": "another1",
+        "user-nric": "fhdsfds",
+        "nric": "fjhdsjdfks"
+      },
+      "id": "C8jx406"
+    },
+    {
+      "id": "anothser1",
+      "user-nric": "fhdsfds",
+      "nric": "fjhdsjdfks"
     }
+  ]
 }
