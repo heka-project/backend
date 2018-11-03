@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "file-system": "^2.2.2",
     "json-server": "^0.14.0"
   },
   "devDependencies": {
