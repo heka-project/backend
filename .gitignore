@@ -81,4 +81,13 @@ typings/
 
 # End of https://www.gitignore.io/api/node
 
-src/db/db.json
+
+# Created by https://www.gitignore.io/api/redis
+# Edit at https://www.gitignore.io/?templates=redis
+
+### Redis ###
+# Ignore redis binary dump (dump.rdb) files
+
+*.rdb
+
+# End of https://www.gitignore.io/api/redis
