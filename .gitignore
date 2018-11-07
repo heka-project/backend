@@ -80,3 +80,5 @@ typings/
 .fusebox/
 
 # End of https://www.gitignore.io/api/node
+
+src/db/db.json
