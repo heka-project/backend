@@ -1,24 +1,17 @@
-let express = require('express');
+require("dotenv").config();
+let express = require("express");
+var bodyParser = require("body-parser");
 let app = express();
-let jsonServer = require('json-server');
-let fs = require('fs');
-let db = require('../db');
-let path = require('path');
+let db = require("./db");
 
-//init db
+app.use(bodyParser.json());
+
 db.initialise();
 
-//route to user.json
-const userEndpoint = jsonServer.router('db/users.json');
-
-//app.use(express.static(path.join(__dirname, '../db/user.json')));
-
-app.get('/', function (req, res) {
-    res.redirect('/users');
+app.get("/", (req, res) => {
+    res.send(200);
 });
 
-app.listen(3000, () => {
-    console.log('You are listening on 3000');
+app.listen(process.env.PORT, () => {
+    console.log("App running on port 3000");
 });
-
-app.use(userEndpoint);
