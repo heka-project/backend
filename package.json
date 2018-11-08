@@ -12,7 +12,9 @@
     "dependencies": {
         "body-parser": "^1.18.3",
         "dotenv": "^6.1.0",
+        "ejs": "^2.6.1",
         "express": "^4.16.4",
+        "flat": "^4.1.0",
         "ioredis": "^4.2.0"
     },
     "devDependencies": {
