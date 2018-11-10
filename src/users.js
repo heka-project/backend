@@ -1,12 +1,11 @@
 let db = require('../src/db');
-let flat = require('flat');
 
 const createUsers = (uid, nrics, name) => {
-    let info = flat.flatten({
+    let info = {
         "uid": uid,
         "nrics": nrics,
         "name": name,
-    });
+    };
     db.setAdd('users', uid);
     db.hmset(uid, info, (err, reply) => {
         if (err) {
@@ -29,11 +28,11 @@ const getAllKeys = () => {
 const getAllUsers = (key) => {
     promise = [];
     key.forEach(indKey => {
-        promise.push(new Promise((resolve, reject)=>{
-            db.hgetall(indKey, (err, reply)=>{
-                if(err){
+        promise.push(new Promise((resolve, reject) => {
+            db.hgetall(indKey, (err, reply) => {
+                if (err) {
                     return reject(err)
-                }resolve(reply)
+                } resolve(reply)
             })
         }))
     });

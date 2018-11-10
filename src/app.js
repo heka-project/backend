@@ -5,6 +5,7 @@ let app = express();
 let db = require("./db");
 let users = require('../src/users');
 let chains = require("../src/chains");
+let unflatten = require('flat').unflatten;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,7 +27,11 @@ app.get("/user", (req, res) => {
         return users.getAllUsers(key);
     }).then((results) => {
         res.setHeader('Content-Type', 'application/json');
-        res.render('index', { data: JSON.stringify(results) });
+        let newRes = Object.assign({}, results.map(ele =>{
+            ele["nrics"] = ele["nrics"].split(",");
+            return ele
+        }))
+        res.render('index', { data: newRes});
     })
 
 })
