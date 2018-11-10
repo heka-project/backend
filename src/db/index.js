@@ -3,11 +3,36 @@ let redis =
     process.env.ENV === "dev" ? new Redis() : new Redis(process.env.REDIS_URL);
 
 const initialise = () => {
-    if (process.env.ENV === "dev") redis.flushdb();
+    if (process.env.ENV === "dev") {
+        //redis.flushdb();
+    }
 };
 
+// String operations
 const set = (key, data) => redis.set(key, value);
 const get = (key, callback) => redis.get(key, callback);
+
+//Set operations
+const setAdd = (key, value) => {
+    redis.sadd(key, value);
+}
+const setMembers = (key, callback) => redis.smembers(key,callback);
+
+
+
+
+//Hashmap
+const hmset = (key, values, callback) =>{
+    redis.hmset(key, values, callback);
+}
+
+const hgetall = (key,callback)=>{
+    redis.hgetall(key, callback)
+}
+
+
+
+
 
 // List operations
 const pushList = async (key, data) => {
@@ -33,4 +58,8 @@ module.exports = {
     get,
     pushList,
     getList,
+    setAdd,
+    hmset,
+    setMembers,
+    hgetall
 };
