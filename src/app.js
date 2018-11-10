@@ -20,9 +20,13 @@ app.get('/', (req, res) => {
 
 // query by id
 app.get("/user", (req, res) => {
-    users.getAllUsers().then((result) => {
-        console.log(result);
-        res.render('index', { data: result });
+    users.getAllKeys().then((keys) => {
+        return keys
+    }).then((key) => {
+        return users.getAllUsers(key);
+    }).then((results) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.render('index', { data: JSON.stringify(results) });
     })
 
 })
@@ -33,6 +37,10 @@ app.post("/user", (req, res) => {
 
     users.createUsers(uid, nrics, name);
     res.sendStatus(200);
+})
+
+app.get('/chain', (req, res) => {
+    res.render('/chain');
 })
 
 app.post("/chain", (req, res) => {

@@ -16,7 +16,7 @@ const get = (key, callback) => redis.get(key, callback);
 const setAdd = (key, value) => {
     redis.sadd(key, value);
 }
-const setMembers = (key) => redis.smembers(key);
+const setMembers = (key, callback) => redis.smembers(key,callback);
 
 
 
@@ -26,10 +26,8 @@ const hmset = (key, values, callback) =>{
     redis.hmset(key, values, callback);
 }
 
-const hgetall = (key)=>{
-    return new Promise((resolve, reject)=>{
-        resolve(redis.hgetall(key));
-    })
+const hgetall = (key,callback)=>{
+    redis.hgetall(key, callback)
 }
 
 
