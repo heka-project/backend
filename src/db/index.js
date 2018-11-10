@@ -13,15 +13,27 @@ const set = (key, data) => redis.set(key, value);
 const get = (key, callback) => redis.get(key, callback);
 
 //Set operations
-const setAdd = (key, value, callback) => {
-    redis.sadd(key, value,callback);
+const setAdd = (key, value) => {
+    redis.sadd(key, value);
 }
-const setMembers = (key,callback) => redis.smembers(key,callback);
+const setMembers = (key) => redis.smembers(key);
+
+
+
 
 //Hashmap
-function hmset(key, values, callback) {
+const hmset = (key, values, callback) =>{
     redis.hmset(key, values, callback);
 }
+
+const hgetall = (key)=>{
+    return new Promise((resolve, reject)=>{
+        resolve(redis.hgetall(key));
+    })
+}
+
+
+
 
 
 // List operations
@@ -49,6 +61,7 @@ module.exports = {
     pushList,
     getList,
     setAdd,
-    hmset, 
-    setMembers
+    hmset,
+    setMembers,
+    hgetall
 };

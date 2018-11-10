@@ -7,22 +7,33 @@ const createUsers = (uid, nrics, name) => {
         "nrics": nrics,
         "name": name,
     });
-    db.setAdd('users', uid,(err, reply)=>{
-        console.log(err)
-    });
+    db.setAdd('users', uid);
     db.hmset(uid, info, (err, reply) => {
-        console.log(`MARK ${reply}`);
+        if (err) {
+            console.log(err);
+        } console.log(reply);
     });
 }
 
-const getAllUsers = () => {
-    db.setMembers('users', (err, reply)=>{
-        if(err){
-            console.log(err);
-        }console.log(reply)
+const getAllKeys = () => {
+    return new Promise((resolve, rejext) => {
+        resolve(db.setMembers('users'));
     })
 }
+
+//Still Broken
+const getAllUsers = () => {
+    return new Promise((resolve, reject) => {
+        getAllKeys().then((result) => {
+            result.forEach(indKey => {
+                resolve(db.hgetall(indKey));
+            });
+        })
+    })
+}
+
 module.exports = {
     createUsers: createUsers,
+    getAllKeys: getAllKeys,
     getAllUsers: getAllUsers,
 }
