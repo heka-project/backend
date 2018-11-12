@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 
 // User
 app.get("/user", (req, res) => {
-    const queryId = req.body.queryId;
+    const queryId = req.query.queryId;
     users
         .getAllKeys()
         // If query, filter keys
