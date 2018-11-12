@@ -2,17 +2,23 @@ require("dotenv").config();
 let express = require("express");
 var bodyParser = require("body-parser");
 let app = express();
+
 let db = require("./db");
 let users = require("../src/users");
 let chains = require("../src/chains");
-let unflatten = require("flat").unflatten;
+let middleware = require("./middleware");
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("views"));
-app.set("view engine", "ejs");
-
+// Initialise services
 db.initialise();
+
+// Middleware
+app.use(
+    express.static("public"),
+    bodyParser.json(),
+    bodyParser.urlencoded({ extended: true }),
+    middleware.logger
+);
+app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
     res.redirect("/user");
@@ -36,7 +42,7 @@ app.get("/user", (req, res) => {
                     return e;
                 })
             );
-            res.render("index", { data: newRes });
+            res.send(newRes);
         });
 });
 app.post("/user", (req, res) => {
