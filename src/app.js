@@ -1,6 +1,5 @@
 require("dotenv").config();
 let express = require("express");
-var bodyParser = require("body-parser");
 let app = express();
 
 let db = require("./db");
@@ -14,9 +13,10 @@ db.initialise();
 // Middleware
 app.use(
     express.static("public"),
-    bodyParser.json(),
-    bodyParser.urlencoded({ extended: true }),
-    middleware.logger
+    middleware.bodyParser.json(),
+    middleware.bodyParser.urlencoded({ extended: true }),
+    middleware.logger,
+    middleware.basicAuthentication
 );
 app.set("view engine", "ejs");
 
@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
     res.redirect("/user");
 });
 
+// User
 app.get("/user", (req, res) => {
     const queryId = req.body.queryId;
     users
@@ -52,6 +53,7 @@ app.post("/user", (req, res) => {
     res.sendStatus(200);
 });
 
+// Chain info
 app.get("/chain", (req, res) => {
     res.render("/chain");
 });
