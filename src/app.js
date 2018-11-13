@@ -76,10 +76,8 @@ app.get("/chain", (req, res) => {
 })
 
 app.post("/chain", (req, res) => {
-    const { batch_id, nodes, current, completion, md5 } = req.body.chain;
     res.sendStatus(200);
-    queue.addToQueue({ batch_id, nodes, current, completion, md5 });
-    queue.displayQueue();
+    queue.addToQueue(req.body.chain);
 });
 
 
