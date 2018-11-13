@@ -6,6 +6,7 @@ let db = require("./db");
 let users = require("../src/users");
 let chains = require("../src/chains");
 let middleware = require("./middleware");
+let queue = require("./queue");
 
 // Initialise services
 db.initialise();
@@ -75,8 +76,9 @@ app.get("/chain", (req, res) => {
 
 app.post("/chain", (req, res) => {
     const { batch_id, nodes, current, completion, md5 } = req.body.chain;
-
-    chains.createChain(batch_id, nodes, current, completion, md5);
+    queue.addToQueue({ batch_id, nodes, current, completion, md5 })
+    queue.displayQueue();
+    //chains.createChain(batch_id, nodes, current, completion, md5);
     res.sendStatus(200);
 });
 
