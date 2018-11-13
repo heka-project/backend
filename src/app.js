@@ -26,6 +26,7 @@ app.get("/", (req, res) => {
 
 // User
 app.get("/user", (req, res) => {
+    console.info("What thue fuck")
     const queryId = req.query.queryId;
     users
         .getAllKeys()
@@ -55,7 +56,6 @@ app.post("/user", (req, res) => {
 
 // Chain info
 app.get("/chain", (req, res) => {
-
     let id;
     chains.getChainKey().then((keys) => {
         return keys
