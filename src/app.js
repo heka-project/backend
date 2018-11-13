@@ -55,6 +55,7 @@ app.post("/user", (req, res) => {
     res.sendStatus(200);
 });
 
+setInterval(queue.clearQueue, 10000);
 // Chain info
 app.get("/chain", (req, res) => {
     let id;
@@ -76,11 +77,11 @@ app.get("/chain", (req, res) => {
 
 app.post("/chain", (req, res) => {
     const { batch_id, nodes, current, completion, md5 } = req.body.chain;
-    queue.addToQueue({ batch_id, nodes, current, completion, md5 })
-    queue.displayQueue();
-    //chains.createChain(batch_id, nodes, current, completion, md5);
     res.sendStatus(200);
+    queue.addToQueue({ batch_id, nodes, current, completion, md5 });
+    queue.displayQueue();
 });
+
 
 app.listen(process.env.PORT, () => {
     console.log("⚡️ - Server running on port 3000");
