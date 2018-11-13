@@ -55,18 +55,31 @@ app.post("/user", (req, res) => {
 
 // Chain info
 app.get("/chain", (req, res) => {
-    res.render("/chain");
-});
+
+    let id;
+    chains.getChainKey().then((keys) => {
+        return keys
+    }).then((key) => {
+        id = key;
+        return chains.getAllChain(key);
+    }).then((results) => {
+        let finRes = {};
+        for (let i = 0; i < results.length; i++) {
+            results[i]["nodes"] = results[i]["nodes"].split(",");
+            finRes[id[i]] = results[i];
+        };
+        res.setHeader('Content-Type', 'application/json');
+        res.send(finRes);
+    });
+})
+
 app.post("/chain", (req, res) => {
-    const batch_id = req.body.chain.batch_id;
-    const nodes = req.body.chain.nodes;
-    const current = req.body.chain.current;
-    const completion = req.body.chain.completion;
-    const md5 = req.body.chain.md5;
+    const { batch_id, nodes, current, completion, md5 } = req.body.chain;
 
     chains.createChain(batch_id, nodes, current, completion, md5);
     res.sendStatus(200);
 });
+
 app.listen(process.env.PORT, () => {
     console.log("⚡️ - Server running on port 3000");
 });
