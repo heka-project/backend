@@ -11,7 +11,7 @@ const clearQueue = () => {
         acc[cur.md5] = cur;
         return acc;
     }, {})
-    if(queue.length > 0){
+    if (queue.length > 0) {
         insertUsers(newQ);
     }
     queue = [];
@@ -23,6 +23,7 @@ const insertUsers = (obj) => {
     let current;
     let completion;
     let md5;
+    let collection;
 
     let key = Object.keys(obj);
     key.forEach(indKey => {
@@ -31,8 +32,9 @@ const insertUsers = (obj) => {
         current = obj[key].current;
         completion = obj[key].completion;
         md5 = obj[key].md5;
+        collection = obj[key].collection
     })
-    chains.createChain(batch_id, nodes, current, completion, md5);
+    chains.createChain(batch_id, nodes, current, completion, md5, collection);
 }
 
 

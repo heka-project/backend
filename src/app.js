@@ -78,14 +78,13 @@ app.post("/chain", (req, res) => {
     queue.addToQueue(req.body.chain);
 });
 
-app.delete("/users/del", (req, res)=>{
-    const auth = req.headers.authorization;
-    console.log(process.env.ADMIN_SECRET);
-    console.log(auth)
-    console.log(users);
-    
-})
+// app.delete("/users/del",middleware.auth, (req, res)=>{
+//     console.log('ok');
+// })
 
+app.get("/map", (req, res)=>{
+    res.send('ok');
+})
 app.listen(process.env.PORT, () => {
     console.log("⚡️ - Server running on port 3000");
 });

@@ -12,9 +12,12 @@ const basicAuthentication = basicAuth({
         client: process.env.CLIENT_SECRET,
         admin: process.env.ADMIN_SECRET,
     },
+   // unauthorizedResponse:getUnauthorizedResponse
 });
 
+// const getUnauthorizedResponse = (req) =>{
 
+// } 
 
 module.exports = {
     logger,

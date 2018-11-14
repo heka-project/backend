@@ -1,12 +1,13 @@
 let db = require('../src/db');
 
-const createChain = (batch_id, nodes, current, completion, md5) => {
+const createChain = (batch_id, nodes, current, completion, md5,collected) => {
     let chainInfo = {
         "batch_id": batch_id,
         "nodes": nodes,
         "current": current,
         "completion": completion,
-        "md5": md5
+        "md5": md5,
+        "collected":collected,
     };
 
     db.setAdd('chains', batch_id);
