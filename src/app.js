@@ -79,15 +79,35 @@ app.post("/chain", (req, res) => {
     queue.addToQueue(req.body.chain);
 });
 
-// app.delete("/users/del",middleware.auth, (req, res)=>{
-//     console.log('ok');
-// })
+app.delete("/users/del",(req, res)=>{
+    users.getAllKeys().then((keys) => {
+        return keys
+    }).then((key) => {
+        key.forEach(x=>{
+            users.delUsers(x);
+            res.send("deleted all users");
+        })
+    })
+})
+
+app.delete("/users/del",(req, res)=>{
+    users.getAllKeys().then((keys) => {
+        return keys
+    }).then((key) => {
+        key.forEach(x=>{
+            users.delUsers(x);
+            res.send("deleted all users");
+        })
+    })
+})
+
 
 app.get("/map", (req, res) => {
     mapData.getData().then(result => {
         res.send(result);
     })
 })
+
 app.listen(process.env.PORT, () => {
     console.log("⚡️ - Server running on port 3000");
-});
+})

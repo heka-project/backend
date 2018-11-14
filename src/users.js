@@ -44,7 +44,7 @@ const getAllUsers = keys => {
 };
 
 const delUsers = keys =>{
-    db.setRemove(keys);
+    db.setRemove('users',keys);
 }
 
 module.exports = {

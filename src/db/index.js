@@ -18,7 +18,7 @@ const setAdd = (key, value) => {
 };
 const setMembers = (key, callback) => redis.smembers(key, callback);
 
-const setRemove = (key) => redis.srem(key);
+const setRemove = (tableName, key) => redis.srem(tableName, key);
 
 //Hashmap
 const hmset = (key, values, callback) => {

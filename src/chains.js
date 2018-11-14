@@ -46,11 +46,16 @@ const getAllChain = (keys) => {
     return Promise.all(promise);
 }
 
+const delChain = keys =>{
+    db.setRemove(keys);
+}
+
 
 
 module.exports = {
     createChain: createChain,
     getAllChain: getAllChain,
     getChainKey:getChainKey,
+    delChain:delChain
 
 }
