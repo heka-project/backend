@@ -16,8 +16,7 @@ app.use(
     express.static("public"),
     middleware.bodyParser.json(),
     middleware.bodyParser.urlencoded({ extended: true }),
-    middleware.logger,
-    middleware.basicAuthentication
+    middleware.logger
 );
 app.set("view engine", "ejs");
 
@@ -26,7 +25,7 @@ app.get("/", (req, res) => {
 });
 
 // User
-app.get("/user", (req, res) => {
+app.get("/user", middleware.clientAuthentication, (req, res) => {
     const queryId = req.query.queryId;
     users
         .getAllKeys()
@@ -47,7 +46,7 @@ app.get("/user", (req, res) => {
             res.send(newRes);
         });
 });
-app.post("/user", (req, res) => {
+app.post("/user", middleware.clientAuthentication, (req, res) => {
     const { name, uid, nrics } = req.body.data;
 
     users.createUsers(uid, nrics, name);
@@ -56,57 +55,66 @@ app.post("/user", (req, res) => {
 
 setInterval(queue.clearQueue, 10000);
 // Chain info
-app.get("/chain", (req, res) => {
+app.get("/chain", middleware.clientAuthentication, (req, res) => {
     let id;
-    chains.getChainKey().then((keys) => {
-        return keys
-    }).then((key) => {
-        id = key;
-        return chains.getAllChain(key);
-    }).then((results) => {
-        let finRes = {};
-        for (let i = 0; i < results.length; i++) {
-            results[i]["nodes"] = eval(results[i]["nodes"]);
-            finRes[id[i]] = results[i];
-        };
-        res.setHeader('Content-Type', 'application/json');
-        res.send(finRes);
-    });
-})
+    chains
+        .getChainKey()
+        .then(keys => {
+            return keys;
+        })
+        .then(key => {
+            id = key;
+            return chains.getAllChain(key);
+        })
+        .then(results => {
+            let finRes = {};
+            for (let i = 0; i < results.length; i++) {
+                results[i]["nodes"] = eval(results[i]["nodes"]);
+                finRes[id[i]] = results[i];
+            }
+            res.setHeader("Content-Type", "application/json");
+            res.send(finRes);
+        });
+});
 
-app.post("/chain", (req, res) => {
+app.post("/chain", middleware.clientAuthentication, (req, res) => {
     res.sendStatus(200);
     queue.addToQueue(req.body.chain);
 });
 
-
-app.delete("/users/del",middleware.basicAuthentication, (req, res) => {
-    users.getAllKeys().then((keys) => {
-        return keys
-    }).then((key) => {
-        key.forEach(x => {
-            users.delUsers(x);
-            res.send('ok');
+app.delete("/user/del", middleware.adminAuthentication, (req, res) => {
+    users
+        .getAllKeys()
+        .then(keys => {
+            return keys;
         })
-    })
-})
-app.delete("/chain/del", middleware.basicAuthentication, (req, res) => {
-    chains.getChainKey().then((keys) => {
-        return keys
-    }).then((key) => {
-        key.forEach(x => {
-            chains.delChain(x);
-            res.send('ok');
+        .then(key => {
+            key.forEach(x => {
+                users.delUsers(x);
+                res.send("ok");
+            });
+        });
+});
+app.delete("/chain/del", middleware.adminAuthentication, (req, res) => {
+    chains
+        .getChainKey()
+        .then(keys => {
+            return keys;
         })
-    })
-})
+        .then(key => {
+            key.forEach(x => {
+                chains.delChain(x);
+                res.send("ok");
+            });
+        });
+});
 
 app.get("/map", (req, res) => {
     mapData.getData().then(result => {
         res.send(result);
-    })
-})
+    });
+});
 
 app.listen(process.env.PORT, () => {
     console.log("⚡️ - Server running on port 3000");
-})
+});

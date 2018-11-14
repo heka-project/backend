@@ -7,17 +7,22 @@ const logger = (request, _, next) => {
     next();
 };
 
-const basicAuthentication = basicAuth({
+const adminAuthentication = basicAuth({
     users: {
-        //client: process.env.CLIENT_SECRET,
         admin: process.env.ADMIN_SECRET,
     },
-   
 });
 
+const clientAuthentication = basicAuth({
+    users: {
+        client: process.env.CLIENT_SECRET,
+        admin: process.env.ADMIN_SECRET,
+    },
+});
 
 module.exports = {
     logger,
     bodyParser,
-    basicAuthentication,
+    adminAuthentication,
+    clientAuthentication,
 };
