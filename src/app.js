@@ -65,7 +65,7 @@ app.get("/chain", (req, res) => {
     }).then((results) => {
         let finRes = {};
         for (let i = 0; i < results.length; i++) {
-            results[i]["nodes"] = results[i]["nodes"].split(",");
+            results[i]["nodes"] = eval(results[i]["nodes"]);
             finRes[id[i]] = results[i];
         };
         res.setHeader('Content-Type', 'application/json');
@@ -82,7 +82,7 @@ app.post("/chain", (req, res) => {
 //     console.log('ok');
 // })
 
-app.get("/map", (req, res)=>{
+app.get("/map", (req, res) => {
     res.send('ok');
 })
 app.listen(process.env.PORT, () => {

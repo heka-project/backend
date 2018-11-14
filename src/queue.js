@@ -28,7 +28,7 @@ const insertUsers = (obj) => {
     let key = Object.keys(obj);
     key.forEach(indKey => {
         batch_id = obj[key].batch_id;
-        nodes = obj[key].nodes;
+        nodes = JSON.stringify(obj[key].nodes);
         current = obj[key].current;
         completion = obj[key].completion;
         md5 = obj[key].md5;
