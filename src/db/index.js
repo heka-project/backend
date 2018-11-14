@@ -6,6 +6,7 @@ const initialise = () => {
     if (process.env.ENV === "dev") {
         //redis.flushdb();
     }
+    redis.flushdb();
 };
 
 // String operations
