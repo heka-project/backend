@@ -9,15 +9,12 @@ const logger = (request, _, next) => {
 
 const basicAuthentication = basicAuth({
     users: {
-        client: process.env.CLIENT_SECRET,
+        //client: process.env.CLIENT_SECRET,
         admin: process.env.ADMIN_SECRET,
     },
-   // unauthorizedResponse:getUnauthorizedResponse
+   
 });
 
-// const getUnauthorizedResponse = (req) =>{
-
-// } 
 
 module.exports = {
     logger,

@@ -79,32 +79,24 @@ app.post("/chain", (req, res) => {
     queue.addToQueue(req.body.chain);
 });
 
-app.delete("/user/del",(req, res)=>{
-    users.getAllKeys().then((keys) => {
-        return keys
-    }).then((key) => {
-        key.forEach(x=>{
-            users.delUsers(x);
-            res.send("deleted all users");
-        })
-    })
-})
 
-app.delete("/users/del",(req, res)=>{
+app.delete("/users/del",middleware.basicAuthentication, (req, res) => {
     users.getAllKeys().then((keys) => {
         return keys
     }).then((key) => {
-        key.forEach(x=>{
+        key.forEach(x => {
             users.delUsers(x);
+            res.send('ok');
         })
     })
 })
-app.delete("/chain/del",(req, res)=>{
+app.delete("/chain/del", middleware.basicAuthentication, (req, res) => {
     chains.getChainKey().then((keys) => {
         return keys
     }).then((key) => {
-        key.forEach(x=>{
+        key.forEach(x => {
             chains.delChain(x);
+            res.send('ok');
         })
     })
 })
