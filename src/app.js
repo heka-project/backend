@@ -82,7 +82,8 @@ app.post("/chain", middleware.clientAuthentication, (req, res) => {
     queue.addToQueue(req.body.chain);
 });
 
-app.delete("/user/del", middleware.adminAuthentication, (req, res) => {
+// Delete
+app.delete("/user", middleware.adminAuthentication, (req, res) => {
     users
         .getAllKeys()
         .then(keys => {
@@ -95,7 +96,7 @@ app.delete("/user/del", middleware.adminAuthentication, (req, res) => {
             });
         });
 });
-app.delete("/chain/del", middleware.adminAuthentication, (req, res) => {
+app.delete("/chain", middleware.adminAuthentication, (req, res) => {
     chains
         .getChainKey()
         .then(keys => {
