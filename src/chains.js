@@ -47,7 +47,7 @@ const getAllChain = (keys) => {
 }
 
 const delChain = keys =>{
-    db.setRemove(keys);
+    db.setRemove("chains", keys);
 }
 
 

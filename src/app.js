@@ -79,7 +79,7 @@ app.post("/chain", (req, res) => {
     queue.addToQueue(req.body.chain);
 });
 
-app.delete("/users/del",(req, res)=>{
+app.delete("/user/del",(req, res)=>{
     users.getAllKeys().then((keys) => {
         return keys
     }).then((key) => {
@@ -96,11 +96,18 @@ app.delete("/users/del",(req, res)=>{
     }).then((key) => {
         key.forEach(x=>{
             users.delUsers(x);
-            res.send("deleted all users");
         })
     })
 })
-
+app.delete("/chain/del",(req, res)=>{
+    chains.getChainKey().then((keys) => {
+        return keys
+    }).then((key) => {
+        key.forEach(x=>{
+            chains.delChain(x);
+        })
+    })
+})
 
 app.get("/map", (req, res) => {
     mapData.getData().then(result => {
