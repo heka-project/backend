@@ -1,7 +1,6 @@
 require("dotenv").config();
 let express = require("express");
 let app = express();
-
 let db = require("./db");
 let users = require("../src/users");
 let chains = require("../src/chains");
@@ -27,7 +26,6 @@ app.get("/", (req, res) => {
 
 // User
 app.get("/user", (req, res) => {
-    console.info("What thue fuck")
     const queryId = req.query.queryId;
     users
         .getAllKeys()
@@ -80,6 +78,13 @@ app.post("/chain", (req, res) => {
     queue.addToQueue(req.body.chain);
 });
 
+app.delete("/users/del", (req, res)=>{
+    const auth = req.headers.authorization;
+    console.log(process.env.ADMIN_SECRET);
+    console.log(auth)
+    console.log(users);
+    
+})
 
 app.listen(process.env.PORT, () => {
     console.log("⚡️ - Server running on port 3000");

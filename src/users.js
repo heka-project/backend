@@ -43,8 +43,13 @@ const getAllUsers = keys => {
     return Promise.all(promise);
 };
 
+const delUsers = keys =>{
+    db.setRemove(keys);
+}
+
 module.exports = {
     createUsers: createUsers,
     getAllKeys: getAllKeys,
     getAllUsers: getAllUsers,
+    delUsers:delUsers,
 };

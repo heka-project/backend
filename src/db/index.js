@@ -18,6 +18,8 @@ const setAdd = (key, value) => {
 };
 const setMembers = (key, callback) => redis.smembers(key, callback);
 
+const setRemove = (key) => redis.srem(key);
+
 //Hashmap
 const hmset = (key, values, callback) => {
     redis.hmset(key, values, callback);
@@ -54,4 +56,5 @@ module.exports = {
     hmset,
     setMembers,
     hgetall,
+    setRemove,
 };
