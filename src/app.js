@@ -6,8 +6,7 @@ let users = require("../src/users");
 let chains = require("../src/chains");
 let middleware = require("./middleware");
 let queue = require("./queue");
-let fs = require('fs');
-let nodeFetch = require('node-fetch');
+let mapData = require("./mapData");
 
 // Initialise services
 db.initialise();
@@ -85,7 +84,9 @@ app.post("/chain", (req, res) => {
 // })
 
 app.get("/map", (req, res) => {
-    
+    mapData.getData().then(result => {
+        res.send(result);
+    })
 })
 app.listen(process.env.PORT, () => {
     console.log("⚡️ - Server running on port 3000");
