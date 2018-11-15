@@ -13,7 +13,6 @@ db.initialise();
 
 // Middleware
 app.use(
-    express.static("public"),
     middleware.bodyParser.json(),
     middleware.bodyParser.urlencoded({ extended: true }),
     middleware.logger
@@ -21,7 +20,7 @@ app.use(
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-    res.redirect("/user");
+    res.redirect("/map");
 });
 
 // User
@@ -112,7 +111,8 @@ app.delete("/chain", middleware.adminAuthentication, (req, res) => {
 
 app.get("/map", (req, res) => {
     mapData.getData().then(result => {
-        res.send(result);
+        mapData.writeFile(result);
+        res.render('map');
     });
 });
 

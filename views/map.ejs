@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map'></div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiamVyZW15bGltMjAiLCJhIjoiY2pvZmV2bmZ5MDNlczNrcnd4MG01eWlvaiJ9.nMECkK0lxC4K6n9QNBVL_A';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/dark-v9',
+            center: [103.8198, 1.3521],
+            zoom: 11
+        });
+        console.log('hi')
+
+        // we will add more code here in the next steps
+        map.on('load', function () {
+
+            map.addSource('heatmapdata', {
+                type: 'geojson',
+                data: '../data/data.geojson'
+            });
+
+            map.addLayer({
+                id: 'medicine-point',
+                type: 'circle',
+                source: 'heatmapdata',
+                minzoom: 10,
+                paint: {
+                    // increase the radius of the circle as the zoom level and dbh value increases
+                    'circle-radius': {
+                        property: 'quantity',
+                        type: 'exponential',
+                        stops: [
+                            [{ zoom: 15, value: 1 }, 5],
+                            [{ zoom: 15, value: 100 }, 10],
+                            [{ zoom: 22, value: 1 }, 10],
+                            [{ zoom: 22, value: 10 }, 20],
+                        ]
+                    },
+                    'circle-color': {
+                        property: 'quantity',
+                        type: 'exponential',
+                        stops: [
+                            [0, 'rgba(0,133,204,0)'],
+                            [10, 'rgb(26,131,201)'],
+                            [20, 'rgb(51,129,197)'],
+                            [30, 'rgb(77,126,194)'],
+                            [40, 'rgb(102,124,190)'],
+                            [50, 'rgb(128,122,187)'],
+                            [60, 'rgb(153,120,183)'],
+                            [70, 'rgb(179,118,180)'],
+                            [80, 'rgb(204,115,176)'],
+                            [90, 'rgb(230,113,173)'],
+                            [100, 'rgb(255,111,169)']
+
+                        ]
+                    },
+                    'circle-stroke-color': 'white',
+                    'circle-stroke-width': 1,
+                    'circle-opacity': {
+                        stops: [
+                            [14, 1],
+                            [15, 1]
+                        ]
+                    }
+                }
+            }, 'waterway-label');
+
+            map.on('click', 'medicine-point', function (e) {
+                new mapboxgl.Popup()
+                    .setLngLat(e.features[0].geometry.coordinates)
+                    .setHTML('<b>Quantity:</b> ' + e.features[0].properties.quantity)
+                    .addTo(map);
+            });
+
+
+        });
+
+
+    </script>
+</body>
+
+</html>

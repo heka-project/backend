@@ -55,11 +55,11 @@ const getData = () => nodeFetch(url, options).then(res => {
 })
 
 const writeFile = (data) =>{
-    fs.writeFile('data/data.geoJson', data, (err, reply) => {
+    fs.writeFile('data/data.geojson', data, (err, reply) => {
     });
 }
 
 
 module.exports ={
-    createMap,getData
+    createMap,getData, writeFile,
 }
