@@ -1,4 +1,5 @@
 let nodeFetch = require("node-fetch");
+let fs = require('fs');
 const url = "https://55642723-d9fa-492a-94fc-74d42db61f9d.us10.cp.iot.sap/iot/core/api/v1/devices/27/measures";
 const options = {
     method: "GET",
@@ -52,6 +53,11 @@ const getData = () => nodeFetch(url, options).then(res => {
     }
     return formatMapData(data)
 })
+
+const writeFile = (data) =>{
+    fs.writeFile('data/data.geoJson', data, (err, reply) => {
+    });
+}
 
 
 module.exports ={
