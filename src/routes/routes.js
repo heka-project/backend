@@ -93,8 +93,7 @@ router.delete("/chain", middleware.adminAuthentication, (req, res) => {
 
 router.get("/map", (req, res) => {
     mapData.getData().then(result => {
-        mapData.writeFile(result);
-        res.render('map');
+        res.send(result)
     });
 });
 
