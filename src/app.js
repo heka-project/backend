@@ -1,6 +1,7 @@
 require("dotenv").config();
 let express = require("express");
 let app = express();
+let cors = require('cors');
 let db = require("./db");
 
 let middleware = require("./middleware");
@@ -15,7 +16,9 @@ db.initialise();
 app.use(
     middleware.bodyParser.json(),
     middleware.bodyParser.urlencoded({ extended: true }),
-    middleware.logger
+    middleware.logger,
+    cors()
+
 );
 app.set("view engine", "ejs");
 
