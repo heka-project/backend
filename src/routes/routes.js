@@ -6,6 +6,25 @@ let mapData = require("../mapData");
 let users = require("../../src/users");
 let chains = require("../../src/chains");
 let blockchain = require("../../src/blockchain");
+// let io = router.get('io');
+
+router.get("/", (req, res) => {
+    let io = req.app.get("socketio");
+    let socket_id = [];
+    io.on("connection", socket => {
+        socket_id.push(socket.id);
+        if (socket_id[0] === socket.id) {
+            // remove the connection listener for any subsequent
+            // connections with the same ID
+            io.removeAllListeners("connection");
+        }
+
+        socket.on("hello message", msg => {
+            console.log("just got: ", msg);
+            socket.emit("chat message", "hi from server");
+        });
+    });
+});
 // User
 router.get("/user", middleware.clientAuthentication, (req, res) => {
     const queryId = req.query.queryId;
@@ -70,9 +89,9 @@ router.post("/transaction", (req, res) => {
     res.sendStatus(200);
 });
 
-router.get("/transaction", (req, res)=>{
+router.get("/transaction", (req, res) => {
     res.send(blockchain.getBlock());
-})
+});
 // Delete
 router.delete("/user", middleware.adminAuthentication, (req, res) => {
     users

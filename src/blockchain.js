@@ -37,7 +37,7 @@ const addToBlock = (id,from, to, location) =>{
     
     block.transaction.push(transaction);
     db.setAdd("block", block.index);
-    db.hmset(block.id, block,(err, reply)=>{
+    db.hmset(block.index, block,(err, reply)=>{
         if(err){
             console.log(err);
         }console.log(reply);
