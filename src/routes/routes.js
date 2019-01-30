@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 let middleware = require("../middleware");
 let queue = require("../queue");
@@ -30,7 +30,6 @@ router.get("/user", middleware.clientAuthentication, (req, res) => {
 });
 router.post("/user", middleware.clientAuthentication, (req, res) => {
     const { name, uid, nrics } = req.body.data;
-
     users.createUsers(uid, nrics, name);
     res.sendStatus(200);
 });
@@ -64,18 +63,15 @@ router.post("/chain", middleware.clientAuthentication, (req, res) => {
     queue.addToQueue(req.body.chain);
 });
 
-router.post("/transaction", (req,res) => {
-    const {id, from, to, location} = req.body.data;
+router.post("/transaction", (req, res) => {
+    const { id, from, to, location } = req.body.data;
 
-    blockchain.createTransaction(id, from, to, location);
+    blockchain.addToBlock(id, from, to, location);
     res.sendStatus(200);
-})
+});
 
-router.post("/block", (req,res) => {
-    const {index, hash, prevHash, nonce} = req.body.data;
-
-    blockchain.createTransaction(index, hash, prevHash, nonce);
-    res.sendStatus(200);
+router.get("/transaction", (req, res)=>{
+    res.send(blockchain.getBlock());
 })
 // Delete
 router.delete("/user", middleware.adminAuthentication, (req, res) => {
@@ -107,7 +103,7 @@ router.delete("/chain", middleware.adminAuthentication, (req, res) => {
 
 router.get("/map", (req, res) => {
     mapData.getData().then(result => {
-        res.send(result)
+        res.send(result);
     });
 });
 
