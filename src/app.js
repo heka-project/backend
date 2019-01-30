@@ -1,19 +1,18 @@
 require("dotenv").config();
 let express = require("express");
 let app = express();
-let cors = require('cors');
+let cors = require("cors");
 let db = require("./db");
 
-let server = require('http').Server(app);
-let io = require('socket.io')(server);
+let http = require("http").createServer();
+let io = require("socket.io")(http);
 
 let middleware = require("./middleware");
 
-const routes = require('./routes/routes');
+const routes = require("./routes/routes");
 
 // Initialise services
 db.initialise();
-
 
 // Middleware
 app.use(
@@ -21,15 +20,30 @@ app.use(
     middleware.bodyParser.urlencoded({ extended: true }),
     middleware.logger,
     cors()
-
 );
 app.set("view engine", "ejs");
-app.use('/', routes);
-app.set('socketio', io);
-server.listen(3032, () =>{
-    console.log("Listening on port 3032");
-})
+app.use("/", routes);
 
-// app.listen(process.env.PORT, () => {
-//     console.log("⚡️ - Server running on port " + process.env.PORT);
-// });
+let socket_id = [];
+io.on("connection", socket => {
+    // socket_id.push(socket.id);
+    // if (socket_id[0] === socket.id) {
+    //     // remove the connection listener for any subsequent
+    //     // connections with the same ID
+    //     io.removeAllListeners("connection");
+    // }
+
+    // Send genesis block to miners
+    io.emit("GENESIS_BLOCK", {
+        index: 0,
+        prevHash: "000000000",
+        hash: null,
+        nonce: 0,
+        transactions: [],
+    });
+});
+
+http.listen(3032);
+app.listen(process.env.PORT, () => {
+    console.log("⚡️ - App running on port " + process.env.PORT);
+});
