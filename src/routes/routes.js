@@ -5,6 +5,7 @@ let queue = require("../queue");
 let mapData = require("../mapData");
 let users = require("../../src/users");
 let chains = require("../../src/chains");
+let blockchain = require("../../src/blockchain");
 // User
 router.get("/user", middleware.clientAuthentication, (req, res) => {
     const queryId = req.query.queryId;
@@ -63,6 +64,19 @@ router.post("/chain", middleware.clientAuthentication, (req, res) => {
     queue.addToQueue(req.body.chain);
 });
 
+router.post("/transaction", (req,res) => {
+    const {id, from, to, location} = req.body.data;
+
+    blockchain.createTransaction(id, from, to, location);
+    res.sendStatus(200);
+})
+
+router.post("/block", (req,res) => {
+    const {index, hash, prevHash, nonce} = req.body.data;
+
+    blockchain.createTransaction(index, hash, prevHash, nonce);
+    res.sendStatus(200);
+})
 // Delete
 router.delete("/user", middleware.adminAuthentication, (req, res) => {
     users
