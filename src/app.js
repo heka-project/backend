@@ -26,12 +26,12 @@ app.use("/", routes);
 
 let socket_id = [];
 io.on("connection", socket => {
-    // socket_id.push(socket.id);
-    // if (socket_id[0] === socket.id) {
-    //     // remove the connection listener for any subsequent
-    //     // connections with the same ID
-    //     io.removeAllListeners("connection");
-    // }
+    socket_id.push(socket.id);
+    if (socket_id[0] === socket.id) {
+        // remove the connection listener for any subsequent
+        // connections with the same ID
+        io.removeAllListeners("connection");
+    }
 
     // Send genesis block to miners
     io.emit("GENESIS_BLOCK", {
@@ -40,6 +40,9 @@ io.on("connection", socket => {
         hash: null,
         nonce: 0,
         transactions: [],
+    });
+    socket.on("SOLVED", block => {
+        console.log(`Recevied solve ${block}`);
     });
 });
 
