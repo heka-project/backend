@@ -1,11 +1,8 @@
 require("dotenv").config();
 let express = require("express");
-let app = express();
 let cors = require("cors");
 let db = require("./db");
-
-let http = require("http").createServer();
-let io = require("socket.io")(http);
+let socketIO = require("socket.io");
 
 let middleware = require("./middleware");
 
@@ -15,15 +12,20 @@ const routes = require("./routes/routes");
 db.initialise();
 
 // Middleware
-app.use(
-    middleware.bodyParser.json(),
-    middleware.bodyParser.urlencoded({ extended: true }),
-    middleware.logger,
-    cors()
-);
-app.set("view engine", "ejs");
-app.use("/", routes);
+let app = express()
+    .use(
+        middleware.bodyParser.json(),
+        middleware.bodyParser.urlencoded({ extended: true }),
+        middleware.logger,
+        cors()
+    )
+    .set("view engine", "ejs")
+    .use("/", routes)
+    .listen(process.env.PORT, () => {
+        console.log("⚡️ - App running on port " + process.env.PORT);
+    });
 
+const io = socketIO(app);
 let socket_id = [];
 io.on("connection", socket => {
     socket_id.push(socket.id);
@@ -41,13 +43,9 @@ io.on("connection", socket => {
         nonce: 0,
         transactions: [],
     });
+
     socket.on("SOLVED", block => {
         console.log(`Recevied solve ${block}`);
         socket.emit("VALIDATE_BLOCK", block);
     });
-});
-
-http.listen(3032);
-app.listen(process.env.PORT, () => {
-    console.log("⚡️ - App running on port " + process.env.PORT);
 });
