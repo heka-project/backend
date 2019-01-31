@@ -34,7 +34,7 @@ io.on("connection", socket => {
     }
 
     // Send genesis block to miners
-    io.emit("GENESIS_BLOCK", {
+    io.emit("NEW_BLOCK", {
         index: 0,
         prevHash: "000000000",
         hash: null,
@@ -43,6 +43,7 @@ io.on("connection", socket => {
     });
     socket.on("SOLVED", block => {
         console.log(`Recevied solve ${block}`);
+        socket.emit("VALIDATE_BLOCK", block);
     });
 });
 
